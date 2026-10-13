@@ -1,0 +1,409 @@
+================================================================================
+                    LEARNQUEST — COMPLETE DEPLOYMENT GUIDE
+              Production Deployment & Hosting Step-by-Step Manual
+================================================================================
+
+This comprehensive guide walks you through every step of building, optimizing,
+and deploying the LearnQuest educational web platform to production across
+all major hosting providers (Vercel, Netlify, GitHub Pages, Firebase Hosting,
+and traditional VPS/Nginx).
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. PROJECT OVERVIEW & ARCHITECTURE
+2. PREREQUISITES & ENVIRONMENT SETUP
+3. LOCAL PRE-DEPLOYMENT VERIFICATION
+4. DEPLOYMENT OPTION 1: VERCEL (RECOMMENDED)
+5. DEPLOYMENT OPTION 2: NETLIFY (FASTEST / DRAG-AND-DROP)
+6. DEPLOYMENT OPTION 3: GITHUB PAGES (FREE STATIC HOSTING)
+7. DEPLOYMENT OPTION 4: FIREBASE HOSTING (GOOGLE CLOUD)
+8. DEPLOYMENT OPTION 5: TRADITIONAL VPS (UBUNTU / NGINX / APACHE)
+9. PRODUCTION ASSET & PERFORMANCE CHECKLIST
+10. COMMON ISSUES & TROUBLESHOOTING
+
+================================================================================
+1. PROJECT OVERVIEW & ARCHITECTURE
+================================================================================
+LearnQuest is a high-performance educational platform featuring:
+- Interactive Onboarding & Profile Customization (Class, Subject, Avatars)
+- Full-Screen 16:9 Illustrated Adventure World Map (Curriculum Navigation)
+- High-Speed 3-Lane Subway-Surfers-Style Runner Game:
+  * Strict 3-Way Movement: Left (-1), Center (0), Right (+1) only
+  * Realistic Character Design with dynamic stride kinematics and soft shadows
+  * Gentle initial speed for stars, gems, and barrier gates
+  * Non-intrusive blurred background during question checkpoints
+  * Keyboard, Touch, and On-screen 3-Lane Quick Nav Dock controls
+- Synthesized Web Audio API sound engine (zero external audio dependencies)
+- Pure Client-Side Architecture (HTML5, Vanilla CSS, JS/TS, Vite)
+
+Build output directory:
+  /dist
+    ├── index.html                  (Main application entry point)
+    ├── assets/                     (Compiled JavaScript, CSS, & images)
+    │   ├── index-*.js              (Minified application bundle)
+    │   ├── index-*.css             (Minified stylesheet)
+    │   ├── backgrounds/            (Adventure map & runner track images)
+    │   ├── characters/             (Adventurer boy & girl high-res assets)
+    │   ├── mascots/                (Wisdom Owl, Sparky Robot)
+    │   └── rewards/                (Achievement badges & treasure chests)
+    └── favicon.ico / icons
+
+All assets inside /public are copied directly to /dist root during build.
+
+================================================================================
+2. PREREQUISITES & ENVIRONMENT SETUP
+================================================================================
+Before deploying, make sure you have the following installed on your system:
+
+1. Node.js (Version 18.0.0 or higher):
+   Verify with:
+     node -v
+   Expected: v18.x.x, v20.x.x, v22.x.x, or v24.x.x
+
+2. npm (Node Package Manager):
+   Verify with:
+     npm -v
+   Expected: v9.x.x or higher
+
+3. Git (Version Control):
+   Verify with:
+     git -v
+
+4. Install Project Dependencies:
+   In your project root directory (where package.json is located), run:
+     npm install
+
+================================================================================
+3. LOCAL PRE-DEPLOYMENT VERIFICATION
+================================================================================
+Always test the production build locally before uploading to any cloud host.
+
+Step 3.1 — Build the production bundle:
+  Run the command:
+    npm run build
+
+  This runs:
+    tsc && vite build
+  Expected output:
+    ✓ 13 modules transformed.
+    dist/index.html               ~24.8 kB
+    dist/assets/index-*.css       ~73.0 kB
+    dist/assets/index-*.js       ~133.3 kB
+    ✓ built in <1.0s
+
+Step 3.2 — Preview the production bundle locally:
+  Run the command:
+    npm run preview
+
+  This starts Vite's local static preview server:
+    ➜  Local:   http://localhost:4173/
+
+Step 3.3 — Test the following in your browser at http://localhost:4173/:
+  1. Complete onboarding or load existing profile.
+  2. Verify the Adventure Map displays the full illustrated landscape.
+  3. Start Level 1.
+  4. Test 3-lane movement:
+     - Press 'A' or 'Left Arrow' or click 'LEFT' dock button -> moves to Left lane.
+     - Press 'S' or 'Down Arrow' or click 'CENTER' dock button -> moves to Center lane.
+     - Press 'D' or 'Right Arrow' or click 'RIGHT' dock button -> moves to Right lane.
+  5. Check starting speed: elements (stars, bar gates) approach at gentle, comfortable pace.
+  6. Verify question popup: background game remains visible underneath with soft blur (no dark black screen).
+  7. Answer questions and verify sound effects and level completion flow.
+
+Once everything passes, press Ctrl+C to stop the preview server.
+
+================================================================================
+4. DEPLOYMENT OPTION 1: VERCEL (RECOMMENDED)
+================================================================================
+Vercel is the best and easiest platform for Vite applications. It provides
+free global CDN hosting, automatic HTTPS/SSL, and automatic builds on git push.
+
+--- METHOD A: Via Vercel Web Dashboard (Easiest) ---
+1. Push your project to GitHub, GitLab, or Bitbucket:
+     git init
+     git add .
+     git commit -m "LearnQuest Production Release"
+     git remote add origin https://github.com/<your-username>/learnquest.git
+     git branch -M main
+     git push -u origin main
+
+2. Open https://vercel.com and sign up / log in.
+3. Click "Add New..." -> "Project".
+4. Select your "learnquest" repository from GitHub.
+5. Vercel automatically detects "Vite" as the Framework Preset:
+   - Build Command: `npm run build`
+   - Output Directory: `dist`
+   - Install Command: `npm install`
+6. Click "Deploy".
+7. Deployment completes in ~30 seconds. You will receive a live URL:
+   https://learnquest-<your-username>.vercel.app
+
+--- METHOD B: Via Vercel CLI (From Terminal) ---
+1. Install Vercel CLI globally:
+     npm install -g vercel
+
+2. Run in the project directory:
+     vercel
+
+3. Answer the interactive prompts:
+   - Set up and deploy? -> Y
+   - Which scope? -> Select your account
+   - Link to existing project? -> N
+   - What's your project's name? -> learnquest
+   - In which directory is your code located? -> ./
+   - Auto-detected Project Settings: Vite (hit Enter)
+
+4. For immediate production deployment, run:
+     vercel --prod
+
+5. Your site is live immediately!
+
+================================================================================
+5. DEPLOYMENT OPTION 2: NETLIFY (FASTEST / DRAG-AND-DROP)
+================================================================================
+Netlify allows instant zero-setup deployments, including a manual drag-and-drop
+feature that requires no command line or git repository.
+
+--- METHOD A: Netlify Drop (Drag & Drop in 1 Minute) ---
+1. Run local build:
+     npm run build
+2. Navigate to your project folder and locate the generated `dist` folder.
+3. Open your browser and go to:
+     https://app.netlify.com/drop
+4. Drag and drop the `dist` folder directly onto the browser window.
+5. Netlify immediately publishes the site and gives you a free URL:
+   https://<random-name>.netlify.app
+6. You can go to Site Settings -> Change Site Name to rename it to:
+   https://learnquest-adventure.netlify.app
+
+--- METHOD B: Netlify Continuous Deployment via Git ---
+1. Push your code to GitHub.
+2. Go to https://app.netlify.com and click "Add new site" -> "Import an existing project".
+3. Connect your GitHub account and choose the repository.
+4. Configure Build Settings:
+   - Build command: `npm run build`
+   - Publish directory: `dist`
+5. Click "Deploy LearnQuest".
+
+SPA Redirects Note (Already Handled):
+If you configure client-side routes, ensure a file named `public/_redirects` exists with:
+  /*    /index.html   200
+
+================================================================================
+6. DEPLOYMENT OPTION 3: GITHUB PAGES (FREE STATIC HOSTING)
+================================================================================
+GitHub Pages is 100% free hosting provided directly on GitHub.
+
+Important Vite Base Path Note:
+If deploying to a repository path like `https://<username>.github.io/learnquest/`,
+you MUST set the base in `vite.config.js`:
+  export default defineConfig({
+    base: './', // Ensures relative asset links work on sub-paths
+  });
+
+--- METHOD A: Automated Deployment via GitHub Actions (Recommended) ---
+1. Create a GitHub Actions workflow file:
+   `.github/workflows/deploy.yml` with the following content:
+
+--------------------------------------------------------------------------------
+name: Deploy LearnQuest to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build Project
+        run: npm run build
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './dist'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+--------------------------------------------------------------------------------
+
+2. On GitHub, go to your repository Settings -> Pages.
+3. Under "Build and deployment", select Source: "GitHub Actions".
+4. Push your code to `main`. The action will build and publish your site!
+
+================================================================================
+7. DEPLOYMENT OPTION 4: FIREBASE HOSTING (GOOGLE CLOUD)
+================================================================================
+Firebase Hosting provides fast SSD-backed global CDN hosting with custom domains
+and free SSL.
+
+Step 7.1 — Install Firebase CLI:
+  npm install -g firebase-tools
+
+Step 7.2 — Log in to your Google Account:
+  firebase login
+
+Step 7.3 — Initialize Firebase Hosting in the project root:
+  firebase init hosting
+
+Step 7.4 — Answer the configuration prompts:
+  - What do you want to use as your public directory? -> dist
+  - Configure as a single-page app (rewrite all urls to /index.html)? -> Yes
+  - Set up automatic builds and deploys with GitHub? -> Optional (No for manual)
+  - File dist/index.html already exists. Overwrite? -> No (keep existing build!)
+
+Step 7.5 — Build and Deploy:
+  npm run build
+  firebase deploy --only hosting
+
+Your live URL will be:
+  https://<project-id>.web.app
+  https://<project-id>.firebaseapp.com
+
+================================================================================
+8. DEPLOYMENT OPTION 5: TRADITIONAL VPS (UBUNTU / NGINX / APACHE)
+================================================================================
+If you own an Ubuntu/Debian Linux VPS (e.g., DigitalOcean, AWS EC2, Linode, Hetzner):
+
+Step 8.1 — Build on your local machine or server:
+  npm run build
+
+Step 8.2 — Copy the `dist` folder to your server:
+  scp -r dist/* user@your-server-ip:/var/www/learnquest/
+
+Step 8.3 — Configure Nginx Web Server:
+  Create or edit `/etc/nginx/sites-available/learnquest`:
+
+--------------------------------------------------------------------------------
+server {
+    listen 80;
+    server_name yourdomain.com www.yourdomain.com;
+    root /var/www/learnquest;
+    index index.html;
+
+    # Gzip Compression
+    gzip on;
+    gzip_types text/plain text/css application/json application/javascript text/xml application/xml image/svg+xml;
+    gzip_min_length 256;
+
+    # Cache static assets (hashed JS, CSS, images)
+    location /assets/ {
+        expires 1y;
+        add_header Cache-Control "public, no-transform, immutable";
+    }
+
+    # SPA routing fallback
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+}
+--------------------------------------------------------------------------------
+
+Step 8.4 — Enable the site and restart Nginx:
+  sudo ln -s /etc/nginx/sites-available/learnquest /etc/nginx/sites-enabled/
+  sudo nginx -t
+  sudo systemctl restart nginx
+
+Step 8.5 — Enable Free HTTPS via Let's Encrypt Certbot:
+  sudo apt install certbot python3-certbot-nginx
+  sudo certbot --nginx -d yourdomain.com -d www.yourdomain.com
+
+================================================================================
+9. PRODUCTION ASSET & PERFORMANCE CHECKLIST
+================================================================================
+Before launching to students/users, verify each item:
+
+[x] Build Integrity:
+    `npm run build` runs with zero TypeScript or Vite errors.
+[x] 3-Lane Controls:
+    All 3 lanes (Left -1, Center 0, Right +1) respond accurately to:
+    - Arrow keys / WASD / 1-2-3 / Space
+    - On-screen touch zones
+    - Bottom Quick Nav Dock buttons
+[x] Starting Speed:
+    Runner elements (stars, gems, bar gates) glide at gentle starting speed (2.8x)
+    allowing comfortable lane switching for learners.
+[x] Question Popup Display:
+    Game road and realistic character remain visible and softly blurred behind
+    the question dialog card (no black screen overlay).
+[x] Realistic Character Design:
+    Boy & Girl adventurer characters render with realistic shaded outfit,
+    stride bounce kinematics, ground contact shadows, and glowing aura.
+[x] Web Audio Synthesizer:
+    All sound effects (clicks, correct answers, star pickups, powerups, lane changes)
+    synthesize properly using native Web Audio API upon first user interaction.
+[x] High-DPI & Mobile Responsiveness:
+    Game canvas and map automatically adapt to all screen sizes from 360px phones
+    to 4K desktop screens without distortion.
+
+================================================================================
+10. COMMON ISSUES & TROUBLESHOOTING
+================================================================================
+Issue 1: Blank White Screen after deploying to a sub-folder (e.g. GitHub Pages)
+Fix:
+  In `vite.config.js`, set `base: './'` so that asset URLs are relative:
+    export default defineConfig({
+      base: './',
+      // ...
+    });
+  Then re-run `npm run build` and re-deploy.
+
+Issue 2: Audio does not play immediately on page load
+Fix:
+  Modern web browsers (Chrome, Safari, Edge) block audio playback until the
+  user performs their first interaction (click or tap). LearnQuest automatically
+  initializes audio on the user's first click ("Start Adventure" or map node).
+  This is expected browser security behavior.
+
+Issue 3: Images or mascots return 404 in production
+Fix:
+  Ensure all static images reside in the `/public` directory:
+    public/assets/backgrounds/
+    public/assets/characters/
+    public/assets/mascots/
+  In Vite, everything in `/public` is copied directly to `/dist` root without
+  name modification, so references like `/assets/characters/boy-adventurer.jpg`
+  resolve cleanly in production.
+
+Issue 4: Old version appears after deploying new code
+Fix:
+  Static hosts aggressively cache files. To force an update:
+  - Hard refresh your browser: Ctrl + F5 (Windows) or Cmd + Shift + R (Mac).
+  - Or open an Incognito / Private window.
+  Vite automatically adds unique hash fingerprints (e.g., `index-BFaQuOIQ.js`)
+  to all bundled code, preventing stale file caching.
+
+================================================================================
+                            DEPLOYMENT READY!
+         LearnQuest is optimized, tested, and ready for production.
+================================================================================

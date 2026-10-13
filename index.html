@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LearnQuest — Your Educational Adventure Awaits!</title>
+  <meta name="description" content="LearnQuest: A gamified learning platform for Indian school students Classes 1–12, aligned with NCERT/CBSE syllabi." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800;900&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/styles/main.css" />
+</head>
+<body>
+
+<div id="app">
+
+  <!-- ══════════════════════════════════════════════
+       LOADING SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="loading-screen" class="screen active">
+    <canvas id="loading-canvas"></canvas>
+    <div class="loading-center">
+      <div class="lq-logo-anim">
+        <svg viewBox="0 0 100 100" class="logo-svg-anim">
+          <defs>
+            <radialGradient id="lg1" cx="50%" cy="50%" r="50%">
+              <stop offset="0%"   stop-color="#a78bfa"/>
+              <stop offset="100%" stop-color="#6C5CE7"/>
+            </radialGradient>
+          </defs>
+          <circle cx="50" cy="50" r="48" fill="url(#lg1)" opacity="0.9"/>
+          <path d="M28 65 L50 20 L72 65 L50 52 Z" fill="white" opacity="0.95"/>
+          <circle cx="50" cy="30" r="5" fill="#FFD93D"/>
+          <path d="M36 72 Q50 80 64 72" stroke="white" stroke-width="3" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1 class="loading-brand">LearnQuest</h1>
+      <p class="loading-tagline">Your Educational Adventure Awaits!</p>
+      <div class="loading-bar-wrap">
+        <div class="loading-bar-track">
+          <div class="loading-bar-fill" id="loading-bar"></div>
+        </div>
+        <p class="loading-status" id="loading-text">Preparing your adventure...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       WELCOME SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="welcome-screen" class="screen">
+    <!-- Animated parallax background -->
+    <canvas id="welcome-canvas" class="welcome-canvas"></canvas>
+
+    <div class="welcome-overlay">
+      <div class="welcome-top-bar">
+        <div class="welcome-logo-pill">
+          <svg viewBox="0 0 40 40" class="logo-icon-sm">
+            <circle cx="20" cy="20" r="19" fill="#6C5CE7"/>
+            <path d="M11 27 L20 8 L29 27 L20 21 Z" fill="white"/>
+            <circle cx="20" cy="12" r="3" fill="#FFD93D"/>
+          </svg>
+          <span>LearnQuest</span>
+        </div>
+      </div>
+
+      <div class="welcome-hero">
+        <div class="welcome-characters-wrap">
+          <div class="welcome-char-card char-boy" id="char-boy-card">
+            <div class="char-glow char-glow-blue"></div>
+            <img src="/assets/characters/boy-adventurer.jpg" alt="Arjun the Explorer" class="welcome-char-img" />
+            <div class="char-badge">Arjun 🧡</div>
+          </div>
+          <div class="welcome-title-center">
+            <h1 class="welcome-headline">
+              <span class="wh-line wh1">Learn.</span>
+              <span class="wh-line wh2">Play.</span>
+              <span class="wh-line wh3">Discover.</span>
+            </h1>
+            <p class="welcome-sub">India's most exciting school learning adventure — aligned with NCERT/CBSE for Classes 1 to 12!</p>
+            <div class="feature-chips">
+              <span class="chip">🎮 Gamified Levels</span>
+              <span class="chip">📚 NCERT Aligned</span>
+              <span class="chip">🏆 Gift Card Rewards</span>
+              <span class="chip">🌟 Classes 1–12</span>
+            </div>
+            <button class="btn-start-pulse" id="btn-start-adventure">
+              <span class="btn-start-inner">
+                <span>Start Your Adventure</span>
+                <span class="btn-arrow">🚀</span>
+              </span>
+            </button>
+            <p class="welcome-legal">Free · Safe · No personal data collected · NCERT verified</p>
+          </div>
+          <div class="welcome-char-card char-girl" id="char-girl-card">
+            <div class="char-glow char-glow-pink"></div>
+            <img src="/assets/characters/girl-adventurer.jpg" alt="Priya the Explorer" class="welcome-char-img" />
+            <div class="char-badge">Priya 💜</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="welcome-mascots-row">
+        <div class="mascot-float-card" style="--delay:0s">
+          <img src="/assets/mascots/sparky-robot.jpg" alt="Sparky Robot" class="mascot-img-sm" />
+          <span class="mascot-name">Sparky 🤖</span>
+        </div>
+        <div class="welcome-subjects-showcase">
+          <div class="subject-orb" style="--clr:#6C5CE7">🔢<br/><small>Maths</small></div>
+          <div class="subject-orb" style="--clr:#00B894">🔬<br/><small>Science</small></div>
+          <div class="subject-orb" style="--clr:#0984E3">📖<br/><small>English</small></div>
+          <div class="subject-orb" style="--clr:#E17055">🌍<br/><small>SST</small></div>
+          <div class="subject-orb" style="--clr:#FF9F43">📝<br/><small>Hindi</small></div>
+        </div>
+        <div class="mascot-float-card" style="--delay:0.3s">
+          <img src="/assets/mascots/wisdom-owl.jpg" alt="Wisdom Owl" class="mascot-img-sm" />
+          <span class="mascot-name">Wisdom 🦉</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       ONBOARDING SCREEN — Gender → Class → Subject
+  ══════════════════════════════════════════════ -->
+  <div id="onboarding-screen" class="screen">
+    <canvas id="onboarding-canvas" class="bg-canvas"></canvas>
+    <div class="onboard-container">
+      <!-- Progress Steps -->
+      <div class="onboard-steps" id="onboard-steps">
+        <div class="ostep active" data-step="1"><span>1</span> Gender</div>
+        <div class="ostep-line"></div>
+        <div class="ostep" data-step="2"><span>2</span> Class</div>
+        <div class="ostep-line"></div>
+        <div class="ostep" data-step="3"><span>3</span> Subject</div>
+        <div class="ostep-line"></div>
+        <div class="ostep" data-step="4"><span>4</span> Name</div>
+      </div>
+
+      <!-- Card area -->
+      <div class="onboard-card" id="onboarding-card">
+        <!-- dynamically rendered -->
+      </div>
+
+      <!-- Nav buttons -->
+      <div class="onboard-nav">
+        <button class="btn-ghost-pill" id="btn-onboarding-back" style="visibility:hidden">← Back</button>
+        <button class="btn-primary-pill" id="btn-onboarding-next" disabled>
+          <span class="btn-text">Next</span>
+          <span>→</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       ADVENTURE MAP — Candy Crush style
+  ══════════════════════════════════════════════ -->
+  <div id="map-screen" class="screen">
+    <!-- Map Header HUD -->
+    <div class="map-hud" id="map-hud">
+      <div class="hud-left">
+        <div class="hud-avatar" id="hud-avatar"></div>
+        <div class="hud-player-info">
+          <span class="hud-name" id="hud-name">Explorer</span>
+          <span class="hud-class" id="hud-class">Class 6 • Mathematics</span>
+        </div>
+      </div>
+      <div class="hud-center">
+        <div class="hud-xp-badge">
+          <span class="xp-star">⭐</span>
+          <span class="xp-val" id="hud-xp">0</span>
+          <span class="xp-lbl">XP</span>
+        </div>
+      </div>
+      <div class="hud-right">
+        <button class="hud-btn" id="btn-rewards"   aria-label="Rewards">🏆</button>
+        <button class="hud-btn" id="btn-progress"  aria-label="Progress">📊</button>
+        <button class="hud-btn" id="btn-settings"  aria-label="Settings">⚙️</button>
+      </div>
+    </div>
+
+    <!-- Scrollable candy-crush style map world -->
+    <div class="map-scroll-world" id="map-scroll-world">
+      <div class="map-canvas-wrap" id="map-canvas-wrap">
+        <!-- Rich illustrated landscape adventure map background -->
+        <img src="/assets/backgrounds/adventure-map.jpg" alt="LearnQuest Adventure Map" class="map-bg-img" id="map-bg-img" draggable="false" />
+        <!-- SVG winding path overlay -->
+        <svg class="map-path-svg" id="map-path-svg" preserveAspectRatio="none"></svg>
+        <!-- Level nodes -->
+        <div class="map-nodes-layer" id="map-nodes-layer"></div>
+      </div>
+    </div>
+
+    <!-- Chapter Footer -->
+    <div class="map-footer-bar" id="map-footer-bar">
+      <div class="footer-chapter-info">
+        <h3 class="footer-chapter-title" id="footer-chapter-title">Chapter 1</h3>
+        <div class="footer-progress-wrap">
+          <div class="footer-progress-bar"><div class="footer-progress-fill" id="footer-progress-fill"></div></div>
+          <span class="footer-progress-text" id="footer-progress-text">0/5 levels</span>
+        </div>
+      </div>
+      <button class="btn-play-now" id="btn-continue-map">
+        <span>Play Now</span> ▶
+      </button>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       GAMEPLAY — Subway Surfers Runner + Questions
+  ══════════════════════════════════════════════ -->
+  <div id="gameplay-screen" class="screen">
+    <!-- Gameplay HUD bar -->
+    <div class="gp-header">
+      <button class="gp-back-btn" id="btn-back-to-map">
+        <span>←</span> Map
+      </button>
+      <div class="gp-level-info">
+        <span class="gp-level-pill" id="gp-level-pill">Level 1</span>
+        <span class="gp-topic" id="gp-topic">Knowing Our Numbers</span>
+      </div>
+      <div class="gp-progress-mini">
+        <span class="gp-qcount" id="gp-qcount">1 / 5</span>
+        <div class="gp-stars-mini" id="gp-stars-mini">⭐⭐⭐</div>
+      </div>
+    </div>
+
+    <!-- Canvas-based runner game -->
+    <canvas class="runner-canvas" id="runner-canvas"></canvas>
+    <!-- Runner background image (for CSS layering) -->
+    <img src="/assets/backgrounds/runner-track.jpg" alt="" class="runner-bg-img" id="runner-bg-img" draggable="false" />
+
+    <!-- Score / distance HUD overlay on runner -->
+    <div class="runner-score-hud" id="runner-score-hud">
+      <div class="runner-hud-row">
+        <div class="runner-distance"><span id="runner-dist">0</span>m</div>
+        <div class="runner-coins">⭐ <span id="runner-coins">0</span></div>
+      </div>
+      <!-- Active 3-Lane Position Indicator -->
+      <div class="runner-lane-indicator" id="runner-lane-indicator">
+        <span class="lane-ind-pill" id="ind-lane-left">LEFT</span>
+        <span class="lane-ind-pill active" id="ind-lane-center">CENTER</span>
+        <span class="lane-ind-pill" id="ind-lane-right">RIGHT</span>
+      </div>
+      <!-- Active Power-up Magnet Badge -->
+      <div class="runner-powerup-badge" id="runner-magnet-badge" style="display:none;">
+        <span class="powerup-icon">🧲</span>
+        <span class="powerup-label">MAGNET</span>
+        <span class="powerup-timer" id="runner-magnet-time">6.0s</span>
+      </div>
+      <!-- Combo Streak Pill -->
+      <div class="runner-streak-badge" id="runner-streak-badge" style="display:none;">
+        <span class="streak-fire">🔥</span>
+        <span class="streak-count" id="runner-streak-text">2x COMBO</span>
+      </div>
+    </div>
+
+    <!-- 3-Lane Interactive Navigation Dock (Bottom) -->
+    <div class="runner-lane-dock" id="runner-lane-dock">
+      <button class="lane-dock-btn" id="dock-lane-left" data-lane="-1" aria-label="Switch to Left Lane">
+        <span class="dock-arrow">◀</span>
+        <span class="dock-title">LEFT</span>
+        <span class="dock-shortcut">A / 1</span>
+      </button>
+      <button class="lane-dock-btn active" id="dock-lane-center" data-lane="0" aria-label="Switch to Center Lane">
+        <span class="dock-arrow">▲</span>
+        <span class="dock-title">CENTER</span>
+        <span class="dock-shortcut">S / 2</span>
+      </button>
+      <button class="lane-dock-btn" id="dock-lane-right" data-lane="1" aria-label="Switch to Right Lane">
+        <span class="dock-arrow">▶</span>
+        <span class="dock-title">RIGHT</span>
+        <span class="dock-shortcut">D / 3</span>
+      </button>
+    </div>
+
+    <!-- 3 Discrete Screen Touch Zones (Left 33%, Center 34%, Right 33%) -->
+    <div class="lane-touch-zones" id="lane-touch-zones">
+      <div class="lane-touch lane-touch-left" id="lane-left" data-lane="-1" title="Left Lane"></div>
+      <div class="lane-touch lane-touch-center" id="lane-center" data-lane="0" title="Center Lane"></div>
+      <div class="lane-touch lane-touch-right" id="lane-right" data-lane="1" title="Right Lane"></div>
+    </div>
+
+    <!-- Checkpoint Approaching Warning Banner -->
+    <div class="checkpoint-warning-banner" id="checkpoint-warning" style="display:none;">
+      <span class="checkpoint-icon">⚡</span> KNOWLEDGE CHECKPOINT IN <span id="checkpoint-countdown-sec">2</span>s! <span class="checkpoint-icon">⚡</span>
+    </div>
+
+    <!-- "Get Ready" countdown overlay -->
+    <div class="runner-countdown-overlay" id="runner-countdown" style="display:none;">
+      <div class="countdown-number" id="countdown-number">3</div>
+    </div>
+
+    <!-- Question POPUP — Glassmorphic centered card -->
+    <div class="gp-question-panel" id="gp-question-panel" style="display:none;">
+      <div class="qp-glass-backdrop"></div>
+      <div class="qp-popup-card">
+
+        <!-- Realistic Mini Character Duo Header (Glassy look) -->
+        <div class="qp-characters-duo">
+          <div class="qp-char-item qp-player-item">
+            <div class="qp-char-glow"></div>
+            <div class="qp-char-frame" id="qp-player-frame">
+              <img id="qp-player-img" src="/assets/characters/boy-adventurer.jpg" alt="Adventurer" class="qp-char-photo" />
+            </div>
+            <div class="qp-char-caption" id="qp-player-caption">Explorer</div>
+          </div>
+          <div class="qp-buddy-bubble" id="qp-buddy-bubble">
+            <span class="qp-speech-arrow"></span>
+            <div class="qp-speech-text" id="qp-speech-text">“Think carefully, Explorer! You’ve got this!”</div>
+          </div>
+          <div class="qp-char-item qp-mascot-item">
+            <div class="qp-mascot-glow"></div>
+            <div class="qp-char-frame qp-mascot-frame" id="qp-mascot-frame">
+              <img id="qp-mascot-img" src="/assets/mascots/sparky-robot.jpg" alt="Companion" class="qp-char-photo" />
+            </div>
+            <div class="qp-char-caption" id="qp-mascot-caption">Sparky</div>
+          </div>
+        </div>
+
+        <!-- Question number + type -->
+        <div class="qp-popup-header">
+          <span class="qp-qnum" id="qp-qnum">Question 1</span>
+          <span class="qp-type-badge" id="qp-type-badge">🔘 Multiple Choice</span>
+        </div>
+
+        <!-- Question text -->
+        <h2 class="qp-question-text" id="qp-question-text"></h2>
+
+        <!-- Options -->
+        <div class="qp-options" id="qp-options"></div>
+
+        <!-- Hint box -->
+        <div class="qp-hint-box" id="qp-hint-box" style="display:none;">
+          <span class="hint-sparky">💡 Hint:</span>
+          <p id="qp-hint-text"></p>
+        </div>
+
+        <!-- Actions -->
+        <div class="qp-actions">
+          <button class="btn-hint-sm" id="btn-hint">💡 Hint</button>
+          <button class="btn-submit-answer" id="btn-submit-answer" disabled>
+            ✓ Submit Answer
+          </button>
+        </div>
+
+        <!-- Progress dots -->
+        <div class="qp-progress-dots" id="qp-progress-dots"></div>
+      </div>
+    </div>
+
+    <!-- Feedback Overlay — centered card -->
+    <div class="feedback-overlay" id="feedback-overlay" style="display:none;">
+      <div class="feedback-card" id="feedback-card">
+        <div class="feedback-burst" id="feedback-burst"></div>
+        <div class="feedback-icon-lg" id="feedback-icon">🎉</div>
+        <h2 class="feedback-title" id="feedback-title">Brilliant!</h2>
+        <p class="feedback-msg" id="feedback-msg">You solved it!</p>
+        <p class="feedback-explain" id="feedback-explain"></p>
+        <div class="feedback-xp-pill" id="feedback-xp" style="display:none;">
+          <span>+<span id="feedback-xp-val">10</span> XP ⭐</span>
+        </div>
+        <button class="btn-feedback-continue" id="btn-feedback-continue">Continue Running 🏃</button>
+      </div>
+    </div>
+
+    <!-- XP floating popups -->
+    <div class="gp-fx-layer" id="gp-fx-layer"></div>
+  </div>
+
+
+  <!-- ══════════════════════════════════════════════
+       LEVEL COMPLETE SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="level-complete-screen" class="screen">
+    <div class="lc-bg">
+      <canvas id="confetti-canvas" class="confetti-canvas"></canvas>
+    </div>
+    <div class="lc-card">
+      <div class="lc-trophy">🏆</div>
+      <h1 class="lc-title" id="lc-title">Level Complete!</h1>
+      <p class="lc-subtitle" id="lc-subtitle">Brilliant performance!</p>
+      <div class="lc-stats-row">
+        <div class="lc-stat">
+          <span class="lc-stat-val" id="lc-stat-questions">5/5</span>
+          <span class="lc-stat-lbl">Questions</span>
+        </div>
+        <div class="lc-stat">
+          <span class="lc-stat-val" id="lc-stat-xp">+50</span>
+          <span class="lc-stat-lbl">XP Earned</span>
+        </div>
+        <div class="lc-stat">
+          <span class="lc-stat-val" id="lc-stat-stars">⭐⭐⭐</span>
+          <span class="lc-stat-lbl">Stars</span>
+        </div>
+      </div>
+      <div class="lc-concepts" id="lc-concepts">
+        <h4>Concepts Mastered:</h4>
+        <ul id="lc-concepts-list"></ul>
+      </div>
+      <div class="lc-actions">
+        <button class="btn-ghost-pill" id="btn-replay-level">🔄 Replay</button>
+        <button class="btn-primary-pill btn-xl" id="btn-next-level">Next Level 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       REWARD / GIFT CARD SCREEN
+  ══════════════════════════════════════════════ -->
+  <div id="reward-screen" class="screen">
+    <div class="reward-bg-sparkle" id="reward-sparkles"></div>
+    <div class="reward-content">
+      <!-- Treasure chest (pre-reveal) -->
+      <div class="treasure-section" id="treasure-section">
+        <div class="treasure-chest-3d" id="treasure-chest">
+          <div class="chest-lid" id="chest-lid">
+            <div class="chest-lid-front"></div>
+          </div>
+          <div class="chest-body-wrap">
+            <div class="chest-body-front">
+              <div class="chest-lock">🔓</div>
+            </div>
+          </div>
+          <div class="chest-light-rays" id="chest-rays" style="display:none;"></div>
+        </div>
+        <p class="treasure-prompt">Tap to Open!</p>
+        <button class="btn-open-chest" id="btn-open-chest">🎁 Open Treasure!</button>
+      </div>
+      <!-- Card reveal (post-reveal) -->
+      <div class="card-reveal-section" id="card-reveal-section" style="display:none;">
+        <h2 class="reward-congrats">🎉 Congratulations! 🎉</h2>
+        <div class="reward-card-3d" id="reward-card-3d">
+          <div class="reward-card-face">
+            <div class="rc-foil-overlay"></div>
+            <img src="/assets/rewards/gift-card-template.jpg" alt="Reward Card" class="rc-img" id="rc-img" />
+            <div class="rc-details">
+              <span class="rc-rarity" id="rc-rarity">RARE</span>
+              <h3 class="rc-title" id="rc-title">Knowledge Explorer</h3>
+              <p class="rc-desc" id="rc-desc">You completed 5 amazing levels!</p>
+            </div>
+          </div>
+        </div>
+        <p class="reward-msg" id="reward-msg">You earned a special collectible!</p>
+        <button class="btn-primary-pill btn-xl" id="btn-collect-reward">Collect & Continue 🚀</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       REWARDS COLLECTION
+  ══════════════════════════════════════════════ -->
+  <div id="rewards-collection-screen" class="screen">
+    <div class="generic-screen-header">
+      <button class="btn-back-pill" id="btn-back-from-rewards">← Map</button>
+      <h1>My Collection</h1>
+      <span class="coll-count" id="coll-count">0 Cards</span>
+    </div>
+    <div class="collection-tabs">
+      <button class="ctab active" data-tab="cards">🃏 Gift Cards</button>
+      <button class="ctab" data-tab="badges">🏅 Badges</button>
+      <button class="ctab" data-tab="achievements">🏆 Achievements</button>
+    </div>
+    <div class="collection-body" id="collection-body"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       PROGRESS
+  ══════════════════════════════════════════════ -->
+  <div id="progress-screen" class="screen">
+    <div class="generic-screen-header">
+      <button class="btn-back-pill" id="btn-back-from-progress">← Map</button>
+      <h1>My Learning Journey</h1>
+      <span></span>
+    </div>
+    <div class="progress-body" id="progress-body"></div>
+  </div>
+
+  <!-- ══════════════════════════════════════════════
+       PROFILE / SETTINGS MODAL
+  ══════════════════════════════════════════════ -->
+  <div class="modal-shade" id="settings-modal" style="display:none;">
+    <div class="modal-box settings-modal-box">
+      <div class="modal-box-header">
+        <h2>⚙️ Settings</h2>
+        <button class="modal-close-x" id="btn-close-settings" aria-label="Close">✕</button>
+      </div>
+      <div class="modal-box-body" id="settings-main-body">
+        <div class="setting-row">
+          <span class="setting-label">🔊 Sound Effects</span>
+          <label class="toggle-sw"><input type="checkbox" id="setting-sfx" checked /><span class="sw-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">✨ Animations</span>
+          <label class="toggle-sw"><input type="checkbox" id="setting-anim" checked /><span class="sw-slider"></span></label>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label">🔄 Change Avatar</span>
+          <button class="btn-ghost-sm" id="btn-change-avatar">Change</button>
+        </div>
+        <div class="setting-row">
+          <span class="setting-label" style="color:#ef4444;">🗑️ Reset Progress</span>
+          <button class="btn-danger-sm" id="btn-reset-progress">Reset All</button>
+        </div>
+      </div>
+
+      <!-- Inline avatar picker (hidden by default) -->
+      <div class="modal-box-body" id="avatar-picker-body" style="display:none;">
+        <div class="modal-box-header" style="padding:0 0 12px 0; border-bottom:1px solid rgba(255,255,255,0.1); margin-bottom:16px;">
+          <button class="btn-ghost-sm" id="btn-avatar-back" style="font-size:0.85rem;">← Back</button>
+          <h3 style="margin:0; font-size:1rem;">Choose Your Adventurer</h3>
+        </div>
+        <p style="font-size:0.8rem; color:rgba(255,255,255,0.6); margin:0 0 16px 0; text-align:center;">Your progress, XP and stars are always kept safe!</p>
+        <div class="avatar-pick-grid" id="avatar-pick-grid">
+          <div class="av-pick-card" data-avatar="boy">
+            <img src="/assets/characters/boy-adventurer.jpg" alt="Arjun" />
+            <span>Arjun</span>
+          </div>
+          <div class="av-pick-card" data-avatar="girl">
+            <img src="/assets/characters/girl-adventurer.jpg" alt="Priya" />
+            <span>Priya</span>
+          </div>
+          <div class="av-pick-card" data-avatar="neutral">
+            <img src="/assets/mascots/sparky-robot.jpg" alt="Sparky" />
+            <span>Sparky</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-backdrop" id="settings-backdrop"></div>
+  </div>
+
+  <!-- Global audio toggle -->
+  <button class="global-audio-btn" id="global-mute-btn" aria-label="Toggle sound" title="Toggle Sound">🔊</button>
+
+</div><!-- #app -->
+
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
